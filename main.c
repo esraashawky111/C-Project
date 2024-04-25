@@ -4,72 +4,81 @@
  *  -----------------------------------------------------------------------------------------------------------------
  *       Author:  ESRAA ALI
  *       Module:
- *       Date  : 10/8/2023
- *       Version:  v0
- *  Description:   ATM Project
+ *       Date  :15/8/2023
+ *       Version:v0
+ *  Description:  School Database Project
  *
  *********************************************************************************************************************/
 
 
+
 #include <stdio.h>
 #include <stdlib.h>
-#include "Source.c"
-#include "Header.h"
-#include <stdbool.h>
-#include <string.h>
+#include "STD.H"
+#include "School_database.h"
+int main(){
+    int choice;
+ Uint_8 id ;
+ Uint_32 year;
+ Uint_8 subjects[3];
+ Uint_8 grades[3] ;
+ Uint_8 *Count, list[max] ;
 
-int main()
-{  init();
-    int ID_Account;
-    float cash_amount;
-    int choice ;
     while(1){
-        MENU();
-        scanf("%d",&choice);
-        printf("\n");
-        switch(choice){
-            case 1:
-                if(login_To_system())
-                {
-                    printf("LOG IN TO SYSTEM SUCCESS.\n");
-                    //break;
-                }
-                else
-                {
-                    printf("login failed !!");
-                }
-                break;
+     MENU();
+     scanf("%d",&choice);
+     printf("\n");
+    switch(choice){
+    case 1:
+    printf("Enter the ID.\n");
+    scanf("%d",&id);
+    printf("Enter the Year of Brith.\n");
+    scanf("%d",&year);
+    printf(" Enter 1-for English\t,2-for MATH\t,3-for Arabic\t,4-for Programming\t ,5-for Sports \n");
+    for(int i=0;i<3;i++){
+    printf("Enter subject %d \n.",i);
+    scanf("%d",&subjects[i]);
+    printf("Enter grade %d\n.",i);
+    scanf("%d",&grades[i]);
+     }
+    SDB_AddEntry(id,year,subjects,grades);
+    break;
 
-            case 2:
-                printf("Enter the Account_ID whose you want to check his Balance....\n");
-                scanf("%d",&ID_Account);
-                print_Balance(ID_Account);
+           case 2:
+            printf("Enter the ID.\n");
+            scanf("%d",&id);
+            Uint_8 ret= SDB_ReadEntry(id,&year,subjects,grades);
+            printf("%d",ret);
             break;
 
-            case 3:
-                printf("Enter the Account_ID \n");
-                scanf("%d",&ID_Account);
-                printf("Enter the amount of cash\n");
-                scanf("%f",&cash_amount);
-                Desposit(ID_Account,cash_amount);
+            case 3:;
+            printf("Enter the ID.\n");
+            scanf("%d",&id);
+             SDB_DeleteEntry(id);
             break;
 
             case 4:;
-                float new;
-                printf("Enter the Account_ID \n Enter cash amount to Withdraw\n");
-                scanf("%d %f",&ID_Account,&cash_amount);
-                new=Withdraw(ID_Account,cash_amount);
-                printf("%f", new);
+             Uint_8 retu= SDB_IsFULL();
+             printf("%d",retu);
             break;
 
 
-            case 5:
-                printf("Enter the Account_ID who you want to transfer money....\n");
-                scanf("%d",&ID_Account);
-                Transfer(ID_Account);
+            case 5:;
+              Uint_8 size = SDB_GetUsedSize();
+              printf("%d",size);
             break;
-
-            case 6:
+            case 6:;
+                printf("Enter COUNT\n");
+                scanf("%d",Count);
+                SDB_GetIdList(Count,list);
+                break;
+            case 7:;
+             printf("Enter the ID.\n");
+             scanf("%d",&id);
+            Uint_8 x =SDB_IsIdExist (id);
+            printf("%d",x);
+            break;
+            case 8:
                 exit(0);
 
             default:
@@ -79,3 +88,9 @@ int main()
 
     return 0;
 }
+
+
+
+
+
+
